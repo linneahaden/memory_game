@@ -38,6 +38,8 @@ function newGame() {
     divEl.innerHTML = currentGameValues[i];
     cardcontainerEl.appendChild(divEl);
   }
+
+  //Lägg till event listeners på korten
 }
 
 // Blandar kortens värden med the Fisher–Yates shuffle
@@ -48,12 +50,3 @@ function shuffle(array) {
   }
   return array;
 }
-
-//Att göra
-// Tänker att...
-// ...html-elementen assignas värdena i den nya arrayen
-// ...när man klickar på två kort stannar de framme om de är lika, annars vänds de tillbaka
-
-//Senare:
-// -Val för antal kort
-// -Val för svårighetsgrad, t.ex. räknar ner antal fel till game over eller man ska hitta tre i stället för två lika.
