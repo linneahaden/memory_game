@@ -1,6 +1,7 @@
 "use strict";
 
-const cardValues = [1, 2, 3, 4];
+const cardValues = ['img/1.jpg', 'img/2.jpg', 'img/3.jpg', 'img/4.jpg',];
+// Denna array borde vara ett objekt med key/value som nummer/img-url?
 
 
 // ::::::::::::::::::::ELEMENT-VARIABLER::::::::::::::::::::
@@ -28,18 +29,26 @@ function newGame() {
   console.log('Current game values: ' + currentGameValues);
 
   // Lägger till html-element med kortens värden
+  // STÄDA UPP HÄR OCH GÖR TYDLIGARE KOMMENTARER
   const cardcontainerEl = document.getElementById('cardcontainer');
   cardcontainerEl.innerHTML = "";
   for (var i = 0; i < currentGameValues.length; i++) {
     console.log(currentGameValues[i]);
     let divEl = document.createElement("div");
+    let imgEl = document.createElement("img");
+    imgEl.src = currentGameValues[i];
+    imgEl.classList.add("cardhidden");
     divEl.classList.add("card");
     divEl.classList.add(currentGameValues[i]);
-    divEl.innerHTML = currentGameValues[i];
+    //Assigna arrayens index som id på varje element? Varför?
     cardcontainerEl.appendChild(divEl);
+    divEl.appendChild(imgEl);
+    divEl.addEventListener('click', checkCard);
   }
+}
 
-  //Lägg till event listeners på korten
+function checkCard() {
+  console.log('checkCard');
 }
 
 // Blandar kortens värden med the Fisher–Yates shuffle
