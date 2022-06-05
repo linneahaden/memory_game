@@ -1,10 +1,8 @@
 Att göra:
 
-- Gör om cardValues-arrayen till att passa följande:
-- html-elementen assignas värdena från den nya shufflade arrayen (class = key (nummer, behövs för att jämföra om det är samma kort), id = index (behövs för att ändra css-egenskaper på rätt kort), img src = img src)
-- Kort som vänder på sig och visar bilden vid klick
-- Gör en counter som håller reda på om det är första eller andra kortet som klickas. Kombinera med if-sats?
-- När två kort klickats, kolla om class innehåller samma värden. Om inte, vänd tillbaka korten.
+- Animation för att vända kort
+- Lås kort ett för klick
+- CSS-funktionalitet för matchande resp. icke matchande kort.
 - grattisruta med val när man klarat spelet
 
 Senare:
