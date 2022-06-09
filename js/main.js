@@ -14,9 +14,9 @@ newgamebuttonEl.addEventListener('click', newGame, false);
 
 // ::::::::::::::::::::FUNKTIONER::::::::::::::::::::
 
-// window.onload = function() {
-//     newGame();
-// };
+window.onload = function() {
+    newGame();
+};
 
 // Startar ny spelomgång
 function newGame() {
@@ -30,48 +30,75 @@ function newGame() {
   }
   // Blandar den nya arrayen.
   shuffle(currentGameValues);
-  console.log('Current game values: ' + currentGameValues);
+  //console.log('Current game values: ' + currentGameValues);
 
   // Lägger till html-element med kortens värden
   // STÄDA UPP HÄR OCH GÖR TYDLIGARE KOMMENTARER
+
+  // Outer card container
   const cardcontainerEl = document.getElementById('cardcontainer');
   cardcontainerEl.innerHTML = "";
+
+
+
   for (var i = 0; i < currentGameValues.length; i++) {
-    console.log(currentGameValues[i]);
-    let divEl = document.createElement("div");
-    let imgEl = document.createElement("img");
-    imgEl.src = currentGameValues[i];
-    imgEl.classList.add("cardhidden");
-    divEl.classList.add(currentGameValues[i]);
-    divEl.classList.add("card");
-    //divEl.setAttribute('id', currentGameValues[i]);
-    //Assigna arrayens index som id på varje element? Varför?
-    cardcontainerEl.appendChild(divEl);
-    divEl.appendChild(imgEl);
-    divEl.addEventListener('click', function(e){
-      // console.log(this.firstElementChild);
-      // console.log(this.className);
-      // console.log(e.currentTarget === this);
-      checkCard(this.classList, imgEl); //Skickar med objektet classList och child image
+
+    let currentCard = currentGameValues[i];
+    console.log(currentCard);
+
+    // HTML elements and classes
+
+    // Outer flip container
+    let flipCardContainerOuterEl = document.createElement("div");
+    flipCardContainerOuterEl.classList.add("flipcard");
+    // Inner container
+    let flipCardContainerInnerEl = document.createElement("div");
+    flipCardContainerInnerEl.classList.add("flipcardinner");
+    // Card front + image
+    let frontDivEl = document.createElement("div");
+    //frontDivEl.classList.add(currentCard);
+    frontDivEl.classList.add("card");
+    frontDivEl.classList.add("flipcardfront");
+    let frontImgEl = document.createElement("img");
+    frontImgEl.src = currentCard;
+    // frontImgEl.classList.add("cardhidden");
+    // Card back + image
+    let backDivEl = document.createElement("div");
+    backDivEl.classList.add("card");
+    backDivEl.classList.add("flipcardback");
+    let backImgEl = document.createElement("img");
+    backImgEl.src = "img/back.jpg"; // FIXA DETTA
+
+    // Child order and event listeners
+    cardcontainerEl.appendChild(flipCardContainerOuterEl);
+    flipCardContainerOuterEl.appendChild(flipCardContainerInnerEl);
+    flipCardContainerInnerEl.appendChild(frontDivEl);
+    flipCardContainerInnerEl.appendChild(backDivEl);
+    frontDivEl.appendChild(frontImgEl);
+    backDivEl.appendChild(backImgEl);
+    backDivEl.addEventListener('click', function(){
+      checkCard(currentCard, flipCardContainerInnerEl); //Skickar med aktuellt kortvärde och bild-elementet
     }, false);
+
   }
 }
 
 // Vänder fram korten per klick och kollar om match.
-function checkCard(classList, cardImage) {
-  // console.log(classList[0]);
+function checkCard(currentCard, flipCardContainerInnerEl) {
+  //Vänd kortet, visa bilden.
+  flipCardContainerInnerEl.classList.add("flip");
+
+  // cardImage.classList.remove('cardhidden');
+
   if (cardTurn==0) {
-    firstCard = classList[0];
+    firstCard = currentCard;
     console.log('First card turned. ' + firstCard);
-    //Vänd kortet, visa bilden.
-    cardImage.classList.remove('cardhidden');
     //Gör kortet icke klickbart/vändbart. Hur? Ta bort event listener?
     cardTurn++; //Gör countern redo för klick på nästa kort.
   } else {
-    secondCard = classList[0]
+    secondCard = currentCard;
     console.log('Second card turned. ' + secondCard);
-    //Vänd kortet, visa bilden.
-    cardImage.classList.remove('cardhidden');
+
     //Jämför värdena på första och andra kortet.
     if (firstCard == secondCard) {
       console.log('Match!');
@@ -80,8 +107,11 @@ function checkCard(classList, cardImage) {
 
     } else {
       console.log('No match!');
-
+      flipCardContainerInnerEl.classList.add("hide");
       //Vänd tillbaka korten och gör första kortet klickbart igen.
+
+      // flipCardContainerInnerEl.classList.remove("flip");
+      // flipCardContainerInnerEl.classList.add("flipback");
     }
     cardTurn--; //Återställer countern i aktuellt spel.
   }

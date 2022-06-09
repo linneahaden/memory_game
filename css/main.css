@@ -39,20 +39,49 @@ body {
   align-content: space-around;
 }
 
-.card {
+.flipcard {
   width: 23%;
   margin: 1%;
-  background-color: white;
+  perspective: 1000px;
+}
+
+.flipcardinner {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: space-around;
+  position: relative;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.flip {
+  transform: rotateY(180deg);
+}
+
+.flipback {}
+
+.card {
+  width: 100%;
+  /* background-color: white; */
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.flipcardfront {
+  position: absolute;
+  transform: rotateY(180deg);
 }
 
 img {
   width: 100%;
+  border-radius: 10px;
 }
 
-.cardhidden {
+/* .cardhidden {
   visibility: hidden;
 }
 
 .cardshown {
   visibility: visible;
-}
+} */
