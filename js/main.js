@@ -46,47 +46,36 @@ function newGame() {
     let currentCard = currentGameValues[i];
     console.log(currentCard);
 
+
     // HTML elements and classes
 
-    // Outer flip container
-    let flipCardContainerOuterEl = document.createElement("div");
-    flipCardContainerOuterEl.classList.add("flipcard");
-    // Inner container
-    let flipCardContainerInnerEl = document.createElement("div");
-    flipCardContainerInnerEl.classList.add("flipcardinner");
-    // Card front + image
-    let frontDivEl = document.createElement("div");
-    //frontDivEl.classList.add(currentCard);
-    frontDivEl.classList.add("card");
-    frontDivEl.classList.add("flipcardfront");
+    // Card container
+    let cardEl = document.createElement("div");
+    cardEl.classList.add("card");
+    // Card front
     let frontImgEl = document.createElement("img");
+    frontImgEl.classList.add("flipcardfront");
     frontImgEl.src = currentCard;
-    // frontImgEl.classList.add("cardhidden");
-    // Card back + image
-    let backDivEl = document.createElement("div");
-    backDivEl.classList.add("card");
-    backDivEl.classList.add("flipcardback");
+    // Card back
     let backImgEl = document.createElement("img");
+    backImgEl.classList.add("flipcardback");
     backImgEl.src = "img/back.jpg"; // FIXA DETTA
 
     // Child order and event listeners
-    cardcontainerEl.appendChild(flipCardContainerOuterEl);
-    flipCardContainerOuterEl.appendChild(flipCardContainerInnerEl);
-    flipCardContainerInnerEl.appendChild(frontDivEl);
-    flipCardContainerInnerEl.appendChild(backDivEl);
-    frontDivEl.appendChild(frontImgEl);
-    backDivEl.appendChild(backImgEl);
-    backDivEl.addEventListener('click', function(){
-      checkCard(currentCard, flipCardContainerInnerEl); //Skickar med aktuellt kortvärde och bild-elementet
+    cardcontainerEl.appendChild(cardEl);
+    cardEl.appendChild(frontImgEl);
+    cardEl.appendChild(backImgEl);
+    cardEl.addEventListener('click', function(){
+      // this.classList.add("flip");
+      checkCard(currentCard, cardEl); //Skickar med aktuellt kortvärde och card-elementet
     }, false);
-
   }
 }
 
-// Vänder fram korten per klick och kollar om match.
-function checkCard(currentCard, flipCardContainerInnerEl) {
+// Vänder fram kortet och kollar om match.
+function checkCard(currentCard, cardEl) {
   //Vänd kortet, visa bilden.
-  flipCardContainerInnerEl.classList.add("flip");
+  cardEl.classList.add("flip");
 
   // cardImage.classList.remove('cardhidden');
 
@@ -107,7 +96,7 @@ function checkCard(currentCard, flipCardContainerInnerEl) {
 
     } else {
       console.log('No match!');
-      flipCardContainerInnerEl.classList.add("hide");
+      //cardEl.classList.add("hide");
       //Vänd tillbaka korten och gör första kortet klickbart igen.
 
       // flipCardContainerInnerEl.classList.remove("flip");
