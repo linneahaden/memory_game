@@ -52,6 +52,7 @@ function newGame() {
     // Card container
     let cardEl = document.createElement("div");
     cardEl.classList.add("card");
+    cardEl.setAttribute("data-value", currentCard);
     // Card front
     let frontImgEl = document.createElement("img");
     frontImgEl.classList.add("flipcardfront");
@@ -67,40 +68,44 @@ function newGame() {
     cardEl.appendChild(backImgEl);
     cardEl.addEventListener('click', function(){
       // this.classList.add("flip");
-      checkCard(currentCard, cardEl); //Skickar med aktuellt kortvärde och card-elementet
+      checkCard(cardEl); //Skickar med aktuellt kortvärde och card-elementet
     }, false);
   }
 }
 
-// Vänder fram kortet och kollar om match.
-function checkCard(currentCard, cardEl) {
-  //Vänd kortet, visa bilden.
+// Vänder fram korten och kollar om match.
+function checkCard(cardEl) {
+  //Vänder kortet
   cardEl.classList.add("flip");
 
-  // cardImage.classList.remove('cardhidden');
-
   if (cardTurn==0) {
-    firstCard = currentCard;
+    firstCard = cardEl;
     console.log('First card turned. ' + firstCard);
-    //Gör kortet icke klickbart/vändbart. Hur? Ta bort event listener?
+
+    //Gör kortet icke klickbart/vändbart. Ta bort event listener!
+
     cardTurn++; //Gör countern redo för klick på nästa kort.
   } else {
-    secondCard = currentCard;
+    secondCard = cardEl;
     console.log('Second card turned. ' + secondCard);
 
     //Jämför värdena på första och andra kortet.
-    if (firstCard == secondCard) {
+    if (firstCard.dataset.value == secondCard.dataset.value) {
       console.log('Match!');
 
-      //Lås elementen för vidare klick.
+      //Ta bort event listener på båda korten. (Redundant att göra det här?)
 
     } else {
       console.log('No match!');
-      //cardEl.classList.add("hide");
-      //Vänd tillbaka korten och gör första kortet klickbart igen.
 
-      // flipCardContainerInnerEl.classList.remove("flip");
-      // flipCardContainerInnerEl.classList.add("flipback");
+      //Vänder tillbaka korten
+      setTimeout(() => {
+        firstCard.classList.remove('flip');
+        secondCard.classList.remove('flip');
+      }, 1200);
+
+      // Lägg tillbaka event listener på båda korten.
+
     }
     cardTurn--; //Återställer countern i aktuellt spel.
   }
