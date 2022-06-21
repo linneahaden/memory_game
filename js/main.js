@@ -32,24 +32,17 @@ function newGame() {
   shuffle(currentGameValues);
   //console.log('Current game values: ' + currentGameValues);
 
-  // Lägger till html-element med kortens värden
-  // STÄDA UPP HÄR OCH GÖR TYDLIGARE KOMMENTARER
-
-  // Outer card container
+  // HTML elements and classes
+  // Outer card/game container
   const cardcontainerEl = document.getElementById('cardcontainer');
   cardcontainerEl.innerHTML = "";
-
-
 
   for (var i = 0; i < currentGameValues.length; i++) {
 
     let currentCard = currentGameValues[i];
     console.log(currentCard);
 
-
-    // HTML elements and classes
-
-    // Card container
+    // Single card container
     let cardEl = document.createElement("div");
     cardEl.classList.add("card");
     cardEl.setAttribute("data-value", currentCard);
@@ -60,29 +53,56 @@ function newGame() {
     // Card back
     let backImgEl = document.createElement("img");
     backImgEl.classList.add("flipcardback");
-    backImgEl.src = "img/back.jpg"; // FIXA DETTA
+    backImgEl.src = "img/back.jpg";
 
     // Child order and event listeners
     cardcontainerEl.appendChild(cardEl);
     cardEl.appendChild(frontImgEl);
     cardEl.appendChild(backImgEl);
-    cardEl.addEventListener('click', function(){
-      // this.classList.add("flip");
-      checkCard(cardEl); //Skickar med aktuellt kortvärde och card-elementet
-    }, false);
+    enableCard(cardEl);
   }
 }
 
+// Function for enabling and disabling cards
+const myListener = function(cardEl) {
+    return function actualListener() {
+        // console.log(cardEl);
+        checkCard(cardEl);
+    }
+}
+const handlers = [];
+
+// Enables card turn
+  // Adding event listener with function reference saved in handlers array.
+  // https://stackoverflow.com/questions/65379045/remove-event-listener-with-an-anonymous-function-with-a-local-scope-variable
+  // A function reference and not an actual function is needed for the removeEventListener
+  // to be able to reference the same function and thus identifying the correct event listener.
+const enableCard = (cardEl) => {
+  handlers[cardEl] = myListener(cardEl)
+  cardEl.addEventListener("click", handlers[cardEl], true);
+    // console.log('Card enabled');
+    // console.log(handlers[cardEl]);
+    // console.log(cardEl);
+};
+
+const disableCard = (cardEl) => {
+  cardEl.removeEventListener("click", handlers[cardEl], true);
+  // console.log('Card disabled');
+  // console.log(handlers[cardEl]);
+  // console.log(cardEl);
+};
+
 // Vänder fram korten och kollar om match.
+// Dela upp denna funktion i flera?
 function checkCard(cardEl) {
   //Vänder kortet
+
+  disableCard(cardEl);
   cardEl.classList.add("flip");
 
   if (cardTurn==0) {
     firstCard = cardEl;
     console.log('First card turned. ' + firstCard);
-
-    //Gör kortet icke klickbart/vändbart. Ta bort event listener!
 
     cardTurn++; //Gör countern redo för klick på nästa kort.
   } else {
@@ -110,6 +130,8 @@ function checkCard(cardEl) {
     cardTurn--; //Återställer countern i aktuellt spel.
   }
 }
+
+
 
 // Blandar kortens värden med the Fisher–Yates shuffle
 function shuffle(array) {
