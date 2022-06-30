@@ -1,7 +1,5 @@
 ## Att göra: ##
 
-* Lås korten för klick - ta bort event listener.
-* Lägg tillbaka event listener vid no match.
 * CSS-funktionalitet för matchande resp. icke matchande kort.
 * Bild-dimensioner / beskär etc.
 * Grattisruta med val när man klarat spelet

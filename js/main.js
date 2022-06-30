@@ -2,9 +2,9 @@
 
 const cardValues = ['img/1.jpg', 'img/2.jpg', 'img/3.jpg', 'img/4.jpg',];
 // Denna array borde vara ett objekt med key/value som nummer/img-url?
-var cardTurn = 0; //För antalet uppvända kort.
-var firstCard;
-var secondCard;
+let cardTurn = 0; //För antalet uppvända kort. (Behöver vara en counter och inte true/false för att kunna lägga till möjligheten att vändra fler kort.)
+let firstCard;
+let secondCard;
 
 // ::::::::::::::::::::ELEMENT-VARIABLER::::::::::::::::::::
 const newgamebuttonEl = document.getElementById('newgamebutton');
@@ -21,10 +21,11 @@ window.onload = function() {
 // Startar ny spelomgång
 function newGame() {
   cardTurn = 0;
-  var newGameValues = cardValues;
+
+  let newGameValues = cardValues;
   let currentGameValues = [];
   // Kombinerar till ny array för att matcha 2 kort.
-  // För att tillåta fler matchninar, t.ex. 3 kort, behöver bl.a. denna funktion justeras.
+  // För att tillåta fler matchninar, t.ex. 3 kort, behöver bl.a. detta block justeras.
   for (let i = 2; i > 0; i--) {
     currentGameValues.push(...newGameValues);
   }
@@ -37,10 +38,10 @@ function newGame() {
   const cardcontainerEl = document.getElementById('cardcontainer');
   cardcontainerEl.innerHTML = "";
 
-  for (var i = 0; i < currentGameValues.length; i++) {
+  for (let i = 0; i < currentGameValues.length; i++) {
 
     let currentCard = currentGameValues[i];
-    console.log(currentCard);
+    //console.log(currentCard);
 
     // Single card container
     let cardEl = document.createElement("div");
@@ -55,65 +56,41 @@ function newGame() {
     backImgEl.classList.add("flipcardback");
     backImgEl.src = "img/back.jpg";
 
-    // Child order and event listeners
+    // Child order and event listener
     cardcontainerEl.appendChild(cardEl);
     cardEl.appendChild(frontImgEl);
     cardEl.appendChild(backImgEl);
-    enableCard(cardEl);
+    cardEventListener(cardEl); //Adds event listener to the single card container
   }
 }
 
-// Function for enabling and disabling cards
-const myListener = function(cardEl) {
-    return function actualListener() {
-        // console.log(cardEl);
-        checkCard(cardEl);
-    }
+// Adds event listener
+function cardEventListener(cardEl) {
+  cardEl.addEventListener('click', () => {
+    checkCard(cardEl);
+    //console.log('I run only once! 😇');
+  }, { once: true }); //Runs only once
 }
-const handlers = [];
-
-// Enables card turn
-  // Adding event listener with function reference saved in handlers array.
-  // https://stackoverflow.com/questions/65379045/remove-event-listener-with-an-anonymous-function-with-a-local-scope-variable
-  // A function reference and not an actual function is needed for the removeEventListener
-  // to be able to reference the same function and thus identifying the correct event listener.
-const enableCard = (cardEl) => {
-  handlers[cardEl] = myListener(cardEl)
-  cardEl.addEventListener("click", handlers[cardEl], true);
-    // console.log('Card enabled');
-    // console.log(handlers[cardEl]);
-    // console.log(cardEl);
-};
-
-const disableCard = (cardEl) => {
-  cardEl.removeEventListener("click", handlers[cardEl], true);
-  // console.log('Card disabled');
-  // console.log(handlers[cardEl]);
-  // console.log(cardEl);
-};
 
 // Vänder fram korten och kollar om match.
 // Dela upp denna funktion i flera?
 function checkCard(cardEl) {
-  //Vänder kortet
 
-  disableCard(cardEl);
-  cardEl.classList.add("flip");
-
+  cardEl.classList.add("flip"); //Vänder kortet
+  //console.log(cardEl);
   if (cardTurn==0) {
     firstCard = cardEl;
-    console.log('First card turned. ' + firstCard);
-
+    //console.log('First card turned. ' + firstCard.dataset.value);
     cardTurn++; //Gör countern redo för klick på nästa kort.
+
   } else {
     secondCard = cardEl;
-    console.log('Second card turned. ' + secondCard);
+    //console.log('Second card turned. ' + secondCard.dataset.value);
 
     //Jämför värdena på första och andra kortet.
     if (firstCard.dataset.value == secondCard.dataset.value) {
       console.log('Match!');
-
-      //Ta bort event listener på båda korten. (Redundant att göra det här?)
+      // Fixa css:en så att vändningen och visningen av bakomvarande kort är i separata klasser?
 
     } else {
       console.log('No match!');
@@ -124,14 +101,13 @@ function checkCard(cardEl) {
         secondCard.classList.remove('flip');
       }, 1200);
 
-      // Lägg tillbaka event listener på båda korten.
-
+      // Lägger tillbaka event listener på båda korten.
+      cardEventListener(firstCard);
+      cardEventListener(secondCard);
     }
-    cardTurn--; //Återställer countern i aktuellt spel.
+    cardTurn = 0; //Återställer countern i aktuellt spel.
   }
 }
-
-
 
 // Blandar kortens värden med the Fisher–Yates shuffle
 function shuffle(array) {
