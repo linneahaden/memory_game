@@ -1,13 +1,16 @@
 "use strict";
 
-const cardValues = ['img/1.jpg', 'img/2.jpg', 'img/3.jpg', 'img/4.jpg',];
+const cardValues = ['img/1.jpg', 'img/2.jpg', 'img/3.jpg', 'img/4.jpg', 'img/5.jpg', 'img/6.jpg', 'img/7.jpg', 'img/8.jpg'];
+//
 // Denna array borde vara ett objekt med key/value som nummer/img-url?
 let cardTurn = 0; //För antalet uppvända kort. (Behöver vara en counter och inte true/false för att kunna lägga till möjligheten att vändra fler kort.)
 let firstCard;
 let secondCard;
+let matched = 0;
 
 // ::::::::::::::::::::ELEMENT-VARIABLER::::::::::::::::::::
 const newgamebuttonEl = document.getElementById('newgamebutton');
+const endscreenEl = document.getElementById('endscreen');
 
 // ::::::::::::::::::::EVENT LISTENERS::::::::::::::::::::
 newgamebuttonEl.addEventListener('click', newGame, false);
@@ -21,6 +24,7 @@ window.onload = function() {
 // Startar ny spelomgång
 function newGame() {
   cardTurn = 0;
+  matched = 0;
 
   let newGameValues = cardValues;
   let currentGameValues = [];
@@ -34,6 +38,7 @@ function newGame() {
   //console.log('Current game values: ' + currentGameValues);
 
   // HTML elements and classes
+  endscreenEl.classList.add('hide');
   // Outer card/game container
   const cardcontainerEl = document.getElementById('cardcontainer');
   cardcontainerEl.innerHTML = "";
@@ -90,7 +95,10 @@ function checkCard(cardEl) {
     //Jämför värdena på första och andra kortet.
     if (firstCard.dataset.value == secondCard.dataset.value) {
       console.log('Match!');
-      // Fixa css:en så att vändningen och visningen av bakomvarande kort är i separata klasser?
+      matched++;
+      var match = new Audio('audio/match.mp3');
+      setTimeout(() =>match.play(), 400);
+      checkIfFinished();
 
     } else {
       console.log('No match!');
@@ -106,6 +114,12 @@ function checkCard(cardEl) {
       cardEventListener(secondCard);
     }
     cardTurn = 0; //Återställer countern i aktuellt spel.
+  }
+}
+
+function checkIfFinished() {
+  if (matched == cardValues.length) {
+    endscreenEl.classList.remove('hide');
   }
 }
 

@@ -1,14 +1,15 @@
 ## Att göra: ##
 
-* CSS-funktionalitet för matchande resp. icke matchande kort.
+* Genomgående layout inkl. logga - använd Adobe Xd
 * Bild-dimensioner / beskär etc.
 * Grattisruta med val när man klarat spelet
 
 
 ## Senare: ##
 * Val för antal kort
+* Lägg in kortvärdena i en databas som uppdateras via webbadmin
 * Poängsystem
-* Ljudeffekter av Dan
+* Fler ljudeffekter
 * Val för svårighetsgrad, t.ex.
   * räknar ner antal fel till game over
   * matcha tre i stället för två lika

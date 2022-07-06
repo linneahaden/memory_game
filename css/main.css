@@ -58,3 +58,21 @@ body {
 .flipcardback {
   position: absolute;
 }
+
+#endscreen {
+  width: 25%;
+  height: 25%;
+  background-color: pink;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+.hide {
+  visibility: hidden;
+}
