@@ -17,3 +17,5 @@
   * high score (kräver backend)
 * teman, t.ex.
   * matcha citat med upphovsperson
+
+http://linneahaden.se/dev/memory/

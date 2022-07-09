@@ -9,23 +9,46 @@
 
 body {
   background-color: #EAECEB;
-  overflow-x: hidden;
+  /* overflow: hidden; */
   font-family: 'Josefin Sans', sans-serif;
+  /* position: absolute; */
+  margin: auto;
+}
+
+header {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-around;
+  align-content: space-around;
+  margin: 10px;
+}
+
+main {
+  /* display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column; */
 }
 
 #cardcontainer {
+  margin: auto;
+  background-color: red;
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
   flex-direction: row;
+  justify-content: space-around;
   align-content: space-around;
   perspective: 1000px;
+  max-height: 90vh;
+  aspect-ratio: 1 / 1;
 }
 
 .card {
   position: relative;
-  width: 23%;
-  margin: 1%;
+  width: 24%;
+  margin: 0.5%;
+  aspect-ratio: 1 / 1;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
